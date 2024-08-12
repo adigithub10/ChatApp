@@ -1,12 +1,15 @@
 const express = require('express');
 const connectDB = require('./Models/db'); // Adjust the path as necessary
 const authRouter = require('./Routes/Auth');
-
+const {messageRouter} = require('./Routes/messageroute');
+const cookieParser = require('cookie-parser');
 // Adjust the path as necessary
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 app.use('/api/auth',authRouter)
+app.use('/api/message',messageRouter)
 // Connect to MongoDB
 connectDB();
 
