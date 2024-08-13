@@ -5,7 +5,7 @@ dotenv.config();
 
 const isLogin = async (req, res, next) => {
     try {
-        console.log(req.cookies.token);
+       // console.log(req.cookies.token);
         const token = req.cookies.token;
         if (!token) {
             return res.status(401).json({ message: "Unauthorized" });

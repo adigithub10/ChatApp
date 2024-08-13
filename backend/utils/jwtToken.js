@@ -13,7 +13,7 @@ const jwtToken = (id, res) => {
         secure: process.env.NODE_ENV === 'production', // Secure if in production
     });
 
-    return token;
+   return token;
 };
 
 module.exports = jwtToken;  // Ensure this is exporting the jwtToken function correctly
