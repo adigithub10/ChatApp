@@ -1,19 +1,28 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+
+// Load environment variables from .env file
 dotenv.config();
 
 const jwtToken = (id, res) => {
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '15d',
-    });
+    try {
+        // Generate a JWT token
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+            expiresIn: '15d', // Token expires in 15 days
+        });
 
-    res.cookie('token', token, {
-        expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days in milliseconds
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // Secure if in production
-    });
+        // Set the token as an HTTP-only cookie
+        res.cookie('token', token, {
+            expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days in milliseconds
+            httpOnly: true, // Ensures the cookie is only sent over HTTP(S), not client JS
+            secure: process.env.NODE_ENV === 'production', // Use secure flag if in production
+        });
 
-   return token;
+        return token; // Return the generated token
+    } catch (error) {
+        console.error('Error generating JWT:', error);
+        return null;
+    }
 };
 
-module.exports = jwtToken;  // Ensure this is exporting the jwtToken function correctly
+module.exports = jwtToken;
